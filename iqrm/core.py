@@ -21,7 +21,8 @@ def shdiff(x, lag):
 
 def outlier_mask(x, nsigma):
     """
-    Returns an outlier mask for array x. TODO: describe the method.
+    Returns an outlier mask for array x, based on Tukey's rule and assuming that the inlier
+    distribution of x (the distribution of 'good' values) is Gaussian.
     """
     q1, med, q3 = np.percentile(x, [25, 50, 75])
     std = (q3 - q1) / 1.349
@@ -30,17 +31,23 @@ def outlier_mask(x, nsigma):
 
 def get_mask(s, maxlag=5, nsigma=3.0):
     """
-    TODO
+    Compute an IQRM channel mask given some per-channel statistic of a block time-frequency data.
 
     Parameters
     ----------
     s : list or ndarray
-        Bandpass statistic, e.g. per-channel standard deviation, from which to infer a channel mask
+        Per-channel statistic of the data. A good choice is the standard deviation of the data in
+        every channel. Other statistics can in principle be used, as long as the statistic value is
+        expected to be LARGER for interference-contaminated channels.
     maxlag : int
-        Maximum shdiff lag considered for detecting outliers
+        Maximum diff lag considered when flagging outliers. The flagging process consists of
+        identifying channel indices i such that s[i] is significantly larger than at least one of
+        its neighbours. This means calculating the set of s[i] - s[i - lag] for all i and for lag 
+        in the range [-maxlag, +maxlag], except 0.
     nsigma : float
-        Flag as an outlier any channel for which any shdiff is further from expectation than 
-        'nsigma' standard deviations.
+        Flag as outliers all channels for which any diff with one of its neighbours is further from
+        expectation than 'nsigma' standard deviations, assuming that 's' is Gaussian distributed
+        for non-contaminated channels.
 
     Returns
     -------
