@@ -26,6 +26,8 @@ clean: ## Remove all python cache and build files
 	find . -type d -name "__pycache__" -delete
 	rm -rf build/
 	rm -rf dist/
+	rm -f .coverage
+	rm -rf .pytest_cache
 
 tests: ## Run unit tests
 	pytest --cov --verbose --cov-report term-missing ${PKG}/tests
