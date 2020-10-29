@@ -1,11 +1,11 @@
 import numpy as np
 from pytest import raises
 
-import iqrm
+from iqrm import get_mask
 
 
 def generate_noise(nchan=1024, seed=0):
-    # IMPORTANT: set a random seed for reproducible results
+    # IMPORTANT: set the random seed for reproducible results
     np.random.seed(seed)
     return np.random.normal(size=nchan)
 
@@ -17,14 +17,24 @@ def generate_noise_with_outlier_range(start, end, nchan=1024, seed=0):
 
 
 def test_param_checks():
-    pass
+    nchan = 1024
+    s = np.zeros(nchan)
+
+    with raises(ValueError):
+        get_mask(s, maxlag=0)
+
+    with raises(ValueError):
+        get_mask(s, maxlag=3.14)
+
+    with raises(ValueError):
+        get_mask(s, nsigma=0)
 
 
 def test_masking_noise():
     s = generate_noise()
 
     for maxlag in range(1, 6):
-        mask = iqrm.get_mask(s, maxlag=maxlag, nsigma=4.0)
+        mask = get_mask(s, maxlag=maxlag, nsigma=4.0)
         assert np.alltrue(~mask)
 
 
@@ -35,7 +45,7 @@ def test_masking_single_outlier():
     for index in indices:
         for maxlag in range(1, 6):
             s = generate_noise_with_outlier_range(index, index+1, nchan=nchan)
-            mask = iqrm.get_mask(s, maxlag=maxlag, nsigma=4.0)
+            mask = get_mask(s, maxlag=maxlag, nsigma=4.0)
             assert mask[index] == True
 
 
@@ -48,5 +58,5 @@ def test_masking_outlier_range():
             s = generate_noise_with_outlier_range(index, index+span, nchan=nchan)
             # The whole range of outliers should be masked as long as we use
             # maxlag > span
-            mask = iqrm.get_mask(s, maxlag=span, nsigma=4.0)
+            mask = get_mask(s, maxlag=span, nsigma=4.0)
             assert np.alltrue(mask[index:index+span])
