@@ -56,6 +56,9 @@ def get_mask(s, maxlag=5, nsigma=3.0):
     """
     s = np.asarray(s)
 
+    if np.isfinite(s).sum() < s.size:
+        raise ValueError("some input array elements are inf or NaN")
+
     if not (isinstance(maxlag, int) and maxlag > 0):
         raise ValueError("maxlag must be an int > 0")
 
