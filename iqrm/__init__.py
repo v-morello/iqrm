@@ -1,2 +1,2 @@
-from .core import get_mask
+from .core import iqrm_mask
 from .tests import test
