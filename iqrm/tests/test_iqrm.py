@@ -29,15 +29,6 @@ def test_param_checks():
     with raises(ValueError): # threshold must be > 0
         iqrm_mask(s, threshold=0)
 
-    # No input elements should be inf or nan
-    s[0] = np.inf
-    with raises(ValueError):
-        iqrm_mask(s)
-
-    s[0] = np.nan
-    with raises(ValueError):
-        iqrm_mask(s)
-
 
 def test_masking_noise():
     s = generate_noise()

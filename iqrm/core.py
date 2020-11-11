@@ -59,9 +59,6 @@ def iqrm_mask(x, radius=5, threshold=3.0):
     """
     x = np.asarray(x)
 
-    if np.isfinite(x).sum() < x.size:
-        raise ValueError("some input array elements are inf or NaN")
-
     if not (isinstance(radius, int) and radius > 0):
         raise ValueError("radius must be an int > 0")
 
