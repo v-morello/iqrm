@@ -1,6 +1,8 @@
 import itertools
 import numpy as np
 
+from collections import defaultdict
+
 
 def lagged_diff(x, k):
     """
@@ -26,6 +28,14 @@ def outlier_mask(x, threshold=3.0):
     q1, med, q3 = np.percentile(x, [25, 50, 75])
     std = (q3 - q1) / 1.349
     return (x - med) > threshold * std
+
+
+def genlags(radius, geofactor=1.5):
+    lag = 1
+    while lag <= radius:
+        yield lag
+        yield -lag
+        lag = max(int(geofactor * lag), lag + 1)
 
 
 def iqrm_mask(x, radius=5, threshold=3.0):
@@ -72,4 +82,45 @@ def iqrm_mask(x, radius=5, threshold=3.0):
     for lag in itertools.chain(range(-radius, 0), range(1, radius+1)):
         d = lagged_diff(x, lag)
         mask = mask | outlier_mask(d, threshold)
+    return mask
+
+
+def iqrm_mask2(x, radius=5, threshold=3.0):
+    """
+    Same as iqrm_mask(), but with voting method that prevents low channels from masking all their
+    neighbours.
+    """
+    x = np.asarray(x)
+    n = len(x)
+
+    if not (isinstance(radius, int) and radius > 0):
+        raise ValueError("radius must be an int > 0")
+
+    threshold = float(threshold)
+    if not threshold > 0:
+        raise ValueError("threshold must be > 0")
+
+    plusvotes = defaultdict(list)
+    minusvotes = defaultdict(list)
+
+    for lag in genlags(radius):
+        d = lagged_diff(x, lag)
+        m = outlier_mask(d, threshold)
+
+        # m[i] = True  <=>  point i was plusvoted by j = i - lag
+        #              <=>  point j = i - lag was minusvoted by i
+        I = np.where(m)[0]
+        J = np.clip(I - lag, 0, n - 1)
+
+        for i, j in zip(I, J):
+            plusvotes[i].append(j)
+            minusvotes[j].append(i)      
+
+    mask = np.zeros_like(x, dtype=bool)
+    for i, voters in plusvotes.items():
+        for j in voters:
+            if j in minusvotes and len(voters) > len(minusvotes[j]):
+                mask[i] = True
+                break
+
     return mask
