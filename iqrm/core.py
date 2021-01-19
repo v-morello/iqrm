@@ -100,27 +100,34 @@ def iqrm_mask2(x, radius=5, threshold=3.0):
     if not threshold > 0:
         raise ValueError("threshold must be > 0")
 
-    plusvotes = defaultdict(list)
-    minusvotes = defaultdict(list)
+    # These data structures both represent a directed graph
+    # votes_cast[i] contains the recipients of votes cast by i
+    # votes_received[i] contains the casters of votes received by i
+    votes_cast = defaultdict(set)
+    votes_received = defaultdict(set)
 
     for lag in genlags(radius):
         d = lagged_diff(x, lag)
         m = outlier_mask(d, threshold)
 
-        # m[i] = True  <=>  point i was plusvoted by j = i - lag
-        #              <=>  point j = i - lag was minusvoted by i
+        # m[i] = True  <=> point j = i - lag cast a vote on i
+        #              <=> point i received a vote from j = i - lag
         I = np.where(m)[0]
         J = np.clip(I - lag, 0, n - 1)
 
         for i, j in zip(I, J):
-            plusvotes[i].append(j)
-            minusvotes[j].append(i)      
+            votes_cast[j].add(i)
+            votes_received[i].add(j)
 
     mask = np.zeros_like(x, dtype=bool)
-    for i, voters in plusvotes.items():
-        for j in voters:
-            if j in minusvotes and len(voters) > len(minusvotes[j]):
+    
+    # i gets masked by j if both the following conditions are True:
+    # 1) j has cast a vote on i
+    # 2) j has cast strictly less votes in total than i has received in total
+    for i, casters in votes_received.items():
+        for j in casters:
+            if j in votes_cast and len(votes_cast[j]) < len(votes_received[i]):
                 mask[i] = True
                 break
 
-    return mask
+    return mask, dict(votes_cast)
