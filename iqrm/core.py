@@ -51,7 +51,7 @@ def iqrm_mask(x, radius=5, threshold=3.0):
     x : list or ndarray
         Input data (1-dimensional)
     radius : int, optional
-        Radius in number of elements
+        Radius in number of elements. If a float is passed, it is truncated.
     threshold : float, optional
         Flagging threshold in number of Gaussian sigmas
 
@@ -65,9 +65,10 @@ def iqrm_mask(x, radius=5, threshold=3.0):
     """
     x = np.asarray(x)
     n = len(x)
+    radius = int(radius)
 
-    if not (isinstance(radius, int) and radius > 0):
-        raise ValueError("radius must be an int > 0")
+    if not radius > 0:
+        raise ValueError("radius must be > 0")
 
     threshold = float(threshold)
     if not threshold > 0:

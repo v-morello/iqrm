@@ -23,9 +23,6 @@ def test_param_checks():
     with raises(ValueError): # radius must be > 0
         iqrm_mask(s, radius=0)
 
-    with raises(ValueError): # radius must be an int
-        iqrm_mask(s, radius=3.14)
-
     with raises(ValueError): # threshold must be > 0
         iqrm_mask(s, threshold=0)
 
