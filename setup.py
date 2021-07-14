@@ -1,4 +1,7 @@
 import setuptools
+import versioneer
 
 if __name__ == "__main__":
-    setuptools.setup()
+    setuptools.setup(
+        version=versioneer.get_version(),
+    )
