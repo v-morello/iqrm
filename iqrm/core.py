@@ -41,17 +41,17 @@ def genlags(radius, geofactor=1.5):
 def iqrm_mask(x, radius=5, threshold=3.0):
     """
     Compute the IQRM mask for one-dimensional input data x.
-
-    The input 'x' is expected to represent the per-channel standard deviation of a block of 
-    time-frequency data. Other statistics can be used in place of standard deviation 
-    (e.g. skewness), but *larger values must indicate higher levels of RFI contamination*.
+    The input 'x' is expected to represent a per-channel statistic that measures RFI contamination
+    in a block of time-frequency data. Any statistic can be used, but an important requirement is
+    that larger values must indicate higher levels of RFI contamination.
 
     Parameters
     ----------
     x : list or ndarray
         Input data (1-dimensional)
     radius : int, optional
-        Radius in number of elements. If a float is passed, it is truncated.
+        Radius in number of elements. If a float is passed, it is truncated. A recommended value
+        is 10% of the number of frequency channels
     threshold : float, optional
         Flagging threshold in number of Gaussian sigmas
 
