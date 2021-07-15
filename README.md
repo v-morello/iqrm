@@ -1,5 +1,7 @@
 # IQRM
 
+![License](https://img.shields.io/badge/License-MIT-green.svg)   [![Build Status](https://travis-ci.com/v-morello/iqrm.svg?branch=master)](https://travis-ci.com/v-morello/iqrm)   [![codecov](https://codecov.io/gh/v-morello/iqrm/branch/master/graph/badge.svg)](https://codecov.io/gh/v-morello/iqrm)
+
 A minimal implementation of the IQRM interference flagging algorithm for radio pulsar and transient searches. This module only provides the algorithm that infers a channel mask from some spectral statistic that measures the level of RFI contamination in a time-frequency data block. It should be useful as a reference implementation to developers who wish to integrate IQRM into an existing pipeline / search code.
 
 **However, if you wish to clean existing SIGPROC files using IQRM, please use Kaustubh Rajwade's full implementation:**  
@@ -8,18 +10,12 @@ https://gitlab.com/kmrajwade/iqrm_apollo
 
 ## Citation
 
-If IQRM contributes to a scientific publication, please cite the article:  
+If IQRM contributes to a scientific publication, please cite the article (link will be provided soon):  
 [IQRM: real-time adaptive RFI masking for radio transient and pulsar searches](http://TODO.FIXME)
 
 ## Installation
 
-The module is available from PyPI:
-```
-pip install iqrm
-```
-
-
-Alternatively, you can clone the repository an run:
+Clone the repository an run:
 ```
 make install
 ```

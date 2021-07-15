@@ -3,7 +3,7 @@ language: python
 branches:
   only:
     - master
-    - travis
+    - dev
 
 dist: xenial
 
@@ -20,3 +20,5 @@ install:
 
 # Runs unit tests and generates coverage report
 script: make tests
+
+after_success: codecov
