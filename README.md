@@ -1,6 +1,6 @@
 # IQRM
 
-![License](https://img.shields.io/badge/License-MIT-green.svg)   [![Build Status](https://travis-ci.com/v-morello/iqrm.svg?branch=master)](https://travis-ci.com/v-morello/iqrm)   [![codecov](https://codecov.io/gh/v-morello/iqrm/branch/master/graph/badge.svg)](https://codecov.io/gh/v-morello/iqrm)
+[![arXiv](http://img.shields.io/badge/astro.ph-2108.12434-B31B1B.svg)](https://arxiv.org/abs/2108.12434)   ![License](https://img.shields.io/badge/License-MIT-green.svg)   [![Build Status](https://travis-ci.com/v-morello/iqrm.svg?branch=master)](https://travis-ci.com/v-morello/iqrm)   [![codecov](https://codecov.io/gh/v-morello/iqrm/branch/master/graph/badge.svg)](https://codecov.io/gh/v-morello/iqrm)
 
 A minimal implementation of the IQRM interference flagging algorithm for radio pulsar and transient searches. This module only provides the algorithm that infers a channel mask from some spectral statistic that measures the level of RFI contamination in a time-frequency data block. It should be useful as a reference implementation to developers who wish to integrate IQRM into an existing pipeline / search code.
 
@@ -11,20 +11,28 @@ https://gitlab.com/kmrajwade/iqrm_apollo
 ## Citation
 
 If IQRM contributes to a scientific publication, please cite the article (link will be provided soon):  
-[IQRM: real-time adaptive RFI masking for radio transient and pulsar searches](http://TODO.FIXME)
+[IQRM: real-time adaptive RFI masking for radio transient and pulsar searches](https://arxiv.org/abs/2108.12434)
 
 ## Installation
 
-Clone the repository an run:
+The easiest method is to use pip install, which also pulls required dependencies:
 ```
+pip install iqrm
+```
+
+Alternatively you can clone the repository and run `make install`:
+```
+git clone https://github.com/v-morello/iqrm
+cd iqrm
 make install
 ```
-Which installs the module in [editable mode](https://pip.pypa.io/en/latest/cli/pip_install/#editable-installs), which means you can freely edit the code. The module has very few dependencies: `numpy`, `pytest` and `pytest-cov` for unit tests. They will be automatically installed by `pip` if not present. To run the unit tests and print a coverage report, simply run:
 
-```
-make tests
-```
+This simply runs `pip install` in [editable mode](https://pip.pypa.io/en/latest/cli/pip_install/#editable-installs), which means you can freely edit the code. It also installs any required dependencies with pip that are not present already. You can check that it all works by running the test suite in a Python or IPython console:
 
+```python
+>>> import iqrm
+>>> iqrm.test()
+```
 
 ## Usage
 
