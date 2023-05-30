@@ -54,6 +54,8 @@ def iqrm_mask(x, radius=5, threshold=3.0, ignorechans=[]):
         is 10% of the number of frequency channels
     threshold : float, optional
         Flagging threshold in number of Gaussian sigmas
+    ignorechans: list or ndarray
+        Channels which are known to be "bad" already. Their votes will be ignored
 
     Returns
     -------
@@ -97,7 +99,9 @@ def iqrm_mask(x, radius=5, threshold=3.0, ignorechans=[]):
     # (even channels not within +- radius)
     nchans = len(x)
     for c in ignorechans:
-        votes_received[c] = list(range(0,c)) + list(range(c+1, nchans))
+        other_chans = list(range(0,c)) + list(range(c+1, nchans))
+        votes_received[c] = other_chans
+        votes_cast[c] = other_chans
     
 
     mask = np.zeros_like(x, dtype=bool)
