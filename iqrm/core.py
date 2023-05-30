@@ -95,8 +95,7 @@ def iqrm_mask(x, radius=5, threshold=3.0, ignorechans=[]):
             votes_cast[j].add(i)
             votes_received[i].add(j)
 
-    # KC: ignore some channels by artificially saying every other channel voted for them
-    # (even channels not within +- radius)
+    # Ignore some channels
     nchans = len(x)
     for c in ignorechans:
         other_chans = list(range(0,c)) + list(range(c+1, nchans))
