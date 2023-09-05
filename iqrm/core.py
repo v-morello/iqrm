@@ -66,6 +66,7 @@ def iqrm_mask(x, radius=5, threshold=3.0, ignorechans=[]):
         and the values are the set of array indices that received a vote from i.
     """
     x = np.asarray(x)
+    x[ignorechans] = np.nan
     n = len(x)
     radius = int(radius)
 
