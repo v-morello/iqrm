@@ -25,7 +25,7 @@ def outlier_mask(x, threshold=3.0):
     distribution of x (the distribution of 'good' values) is Gaussian. 'threshold' represents a
     number of Gaussian sigmas.
     """
-    q1, med, q3 = np.percentile(x, [25, 50, 75])
+    q1, med, q3 = np.nanpercentile(x, [25, 50, 75])
     std = (q3 - q1) / 1.349
     return (x - med) > threshold * std
 
@@ -38,7 +38,7 @@ def genlags(radius, geofactor=1.5):
         lag = max(int(geofactor * lag), lag + 1)
 
 
-def iqrm_mask(x, radius=5, threshold=3.0):
+def iqrm_mask(x, radius=5, threshold=3.0, ignorechans=[]):
     """
     Compute the IQRM mask for one-dimensional input data x.
     The input 'x' is expected to represent a per-channel statistic that measures RFI contamination
@@ -54,6 +54,8 @@ def iqrm_mask(x, radius=5, threshold=3.0):
         is 10% of the number of frequency channels
     threshold : float, optional
         Flagging threshold in number of Gaussian sigmas
+    ignorechans: list or ndarray
+        Channels which are known to be "bad" already. Their votes will be ignored
 
     Returns
     -------
@@ -64,6 +66,7 @@ def iqrm_mask(x, radius=5, threshold=3.0):
         and the values are the set of array indices that received a vote from i.
     """
     x = np.asarray(x)
+    x[ignorechans] = np.nan
     n = len(x)
     radius = int(radius)
 
@@ -92,6 +95,14 @@ def iqrm_mask(x, radius=5, threshold=3.0):
         for i, j in zip(I, J):
             votes_cast[j].add(i)
             votes_received[i].add(j)
+
+    # Ignore some channels
+    nchans = len(x)
+    for c in ignorechans:
+        other_chans = list(range(0,c)) + list(range(c+1, nchans))
+        votes_received[c] = other_chans
+        votes_cast[c] = other_chans
+    
 
     mask = np.zeros_like(x, dtype=bool)
     
