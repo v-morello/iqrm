@@ -25,7 +25,7 @@ def outlier_mask(x, threshold=3.0):
     distribution of x (the distribution of 'good' values) is Gaussian. 'threshold' represents a
     number of Gaussian sigmas.
     """
-    q1, med, q3 = np.percentile(x, [25, 50, 75])
+    q1, med, q3 = np.nanpercentile(x, [25, 50, 75])
     std = (q3 - q1) / 1.349
     return (x - med) > threshold * std
 
