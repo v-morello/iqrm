@@ -38,7 +38,7 @@ def genlags(radius, geofactor=1.5):
         lag = max(int(geofactor * lag), lag + 1)
 
 
-def iqrm_mask(x, radius=5, threshold=3.0, ignorechans=[]):
+def iqrm_mask(x, radius=5, threshold=3.0, ignorechans=[], adjust_votes=True):
     """
     Compute the IQRM mask for one-dimensional input data x.
     The input 'x' is expected to represent a per-channel statistic that measures RFI contamination
@@ -55,7 +55,7 @@ def iqrm_mask(x, radius=5, threshold=3.0, ignorechans=[]):
     threshold : float, optional
         Flagging threshold in number of Gaussian sigmas
     ignorechans: list or ndarray
-        Channels which are known to be "bad" already. Their votes will be ignored
+        Channels which are known to be bad already
 
     Returns
     -------
@@ -65,7 +65,7 @@ def iqrm_mask(x, radius=5, threshold=3.0, ignorechans=[]):
         Dictionary of sets, where the keys are input array indices i that cast at least one vote,
         and the values are the set of array indices that received a vote from i.
     """
-    x = np.asarray(x)
+    x = np.array(x)
     x[ignorechans] = np.nan
     n = len(x)
     radius = int(radius)
@@ -93,15 +93,24 @@ def iqrm_mask(x, radius=5, threshold=3.0, ignorechans=[]):
         J = np.clip(I - lag, 0, n - 1)
 
         for i, j in zip(I, J):
+            i = int(i)
+            j = int(j)
             votes_cast[j].add(i)
             votes_received[i].add(j)
 
-    # Ignore some channels
-    nchans = len(x)
-    for c in ignorechans:
-        other_chans = list(range(0,c)) + list(range(c+1, nchans))
-        votes_received[c] = other_chans
-        votes_cast[c] = other_chans
+    if adjust_votes:
+        # Ignore some channels
+        nchans = len(x)
+        for c in ignorechans:
+            c = int(c)
+            other_chans = set(range(0,c)) | set(range(c+1, nchans))
+            votes_received[c] = other_chans
+            for i in other_chans:
+                votes_cast[i].add(c)
+
+            votes_cast[c] = other_chans
+            for i in other_chans:
+                votes_received[i].add(c)
     
 
     mask = np.zeros_like(x, dtype=bool)
@@ -114,5 +123,6 @@ def iqrm_mask(x, radius=5, threshold=3.0, ignorechans=[]):
             if j in votes_cast and len(votes_cast[j]) < len(votes_received[i]):
                 mask[i] = True
                 break
+    mask[ignorechans]= True
 
     return mask, dict(votes_cast)
