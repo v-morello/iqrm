@@ -38,7 +38,7 @@ def genlags(radius, geofactor=1.5):
         lag = max(int(geofactor * lag), lag + 1)
 
 
-def iqrm_mask(x, radius=5, threshold=3.0, ignorechans=[], adjust_votes=True):
+def iqrm_mask(x, radius=5, threshold=3.0, ignorechans=[]):
     """
     Compute the IQRM mask for one-dimensional input data x.
     The input 'x' is expected to represent a per-channel statistic that measures RFI contamination
@@ -97,21 +97,6 @@ def iqrm_mask(x, radius=5, threshold=3.0, ignorechans=[], adjust_votes=True):
             j = int(j)
             votes_cast[j].add(i)
             votes_received[i].add(j)
-
-    if adjust_votes:
-        # Ignore some channels
-        nchans = len(x)
-        for c in ignorechans:
-            c = int(c)
-            other_chans = set(range(0,c)) | set(range(c+1, nchans))
-            votes_received[c] = other_chans
-            for i in other_chans:
-                votes_cast[i].add(c)
-
-            votes_cast[c] = other_chans
-            for i in other_chans:
-                votes_received[i].add(c)
-    
 
     mask = np.zeros_like(x, dtype=bool)
     
