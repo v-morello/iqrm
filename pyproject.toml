@@ -1,6 +1,5 @@
 [build-system]
-requires = [
-    "setuptools >= 40.6.0", 
-    "wheel"
-]
-build-backend = "setuptools.build_meta"
+requires = ["wheel", "setuptools>=45", "setuptools_scm[toml]>=6.0"]
+
+[tool.setuptools_scm]
+write_to = "src/iqrm/_version.py"

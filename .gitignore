@@ -4,3 +4,4 @@ __pycache__/
 .pytest_cache/
 .coverage
 .vscode/
+src/iqrm/_version.py
