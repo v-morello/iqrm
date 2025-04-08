@@ -32,7 +32,7 @@ def test_masking_noise():
 
     for radius in range(1, 6):
         mask, __ = iqrm_mask(s, radius=radius, threshold=4.0)
-        assert np.alltrue(~mask)
+        assert np.all(~mask)
 
 
 def test_masking_single_outlier():
@@ -70,4 +70,4 @@ def test_masking_outlier_range():
             s = generate_noise_with_outlier_range(index, index+width, nchan=nchan)
             radius = trial_lag_sequence[jj+1]
             mask, __ = iqrm_mask(s, radius=radius, threshold=4.0)
-            assert np.alltrue(mask[index:index+width])
+            assert np.all(mask[index:index+width])
