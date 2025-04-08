@@ -22,14 +22,18 @@ help: ## Print this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 clean: ## Remove all python cache and build files
+	rm -rf tmp
+	rm -rf dist
+	rm -rf build
+	rm -rf .eggs
+	rm -rf .coverage
+	rm -rf .mypy_cache
+	rm -rf docs/build/*
+	rm -rf .pytest_cache
 	find . -type f -name "*.pyc" -delete
 	find . -type d -name "__pycache__" -delete
-	rm -rf build/
-	rm -rf dist/
-	rm -f .coverage
-	rm -rf .pytest_cache
 
 tests: ## Run unit tests
-	pytest --cov --verbose --cov-report term-missing ${PKG}/tests
+	pytest --cov=iqrm --verbose --cov-report term-missing tests
 
 .PHONY: dist install uninstall help clean tests

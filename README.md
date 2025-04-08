@@ -1,6 +1,6 @@
 # IQRM
 
-[![arXiv](http://img.shields.io/badge/astro.ph-2108.12434-B31B1B.svg)](https://arxiv.org/abs/2108.12434)   ![License](https://img.shields.io/badge/License-MIT-green.svg)   ![CI status](https://github.com/v-morello/iqrm/actions/workflows/CI.yml/badge.svg?branch=master)   [![codecov](https://codecov.io/gh/v-morello/iqrm/branch/master/graph/badge.svg)](https://codecov.io/gh/v-morello/iqrm)
+[![arXiv](http://img.shields.io/badge/astro.ph-2108.12434-B31B1B.svg)](https://arxiv.org/abs/2108.12434)   ![License](https://img.shields.io/badge/License-MIT-green.svg)   [![Build Status](https://travis-ci.com/v-morello/iqrm.svg?branch=master)](https://travis-ci.com/v-morello/iqrm)   [![codecov](https://codecov.io/gh/v-morello/iqrm/branch/master/graph/badge.svg)](https://codecov.io/gh/v-morello/iqrm)
 
 A minimal implementation of the IQRM interference flagging algorithm for radio pulsar and transient searches. This module only provides the algorithm that infers a channel mask from some spectral statistic that measures the level of RFI contamination in a time-frequency data block. It should be useful as a reference implementation to developers who wish to integrate IQRM into an existing pipeline / search code.
 
@@ -27,12 +27,7 @@ cd iqrm
 make install
 ```
 
-This simply runs `pip install` in [editable mode](https://pip.pypa.io/en/latest/cli/pip_install/#editable-installs), which means you can freely edit the code. It also installs any required dependencies with pip that are not present already. You can check that it all works by running the test suite in a Python or IPython console:
-
-```python
->>> import iqrm
->>> iqrm.test()
-```
+This simply runs `pip install` in [editable mode](https://pip.pypa.io/en/latest/cli/pip_install/#editable-installs), which means you can freely edit the code. It also installs any required dependencies with pip that are not present already.
 
 ## Usage
 
