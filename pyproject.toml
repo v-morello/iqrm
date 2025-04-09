@@ -30,10 +30,10 @@ readme = "README.md"
 requires-python = ">=3.8"
 
 [project.urls]
-Documentation = "https://github.com/vmorello/iqrm"
-Homepage = "https://github.com/vmorello/iqrm"
-Issues = "https://github.com/vmorello/iqrm/issues"
-Source = "https://github.com/vmorello/iqrm"
+Documentation = "https://github.com/v-morello/iqrm"
+Homepage = "https://github.com/v-morello/iqrm"
+Issues = "https://github.com/v-morello/iqrm/issues"
+Source = "https://github.com/v-morello/iqrm"
 
 [tool.setuptools]
 include-package-data = true
