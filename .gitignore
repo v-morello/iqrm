@@ -1,0 +1,16 @@
+dist
+build
+.egg
+.vscode
+.coverage
+__pycache__
+.mypy_cache
+docs/_build
+.pytest_cache
+src/iqrm/_version.py
+
+*.o
+*.so
+*.egg
+*.py[cod]
+*.egg-info
