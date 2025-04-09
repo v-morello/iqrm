@@ -1,4 +1,4 @@
 graft src
 include *.md
 include LICENSE
-include setup.cfg
+global-exclude __pycache__ *.py[cod]

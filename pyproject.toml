@@ -3,3 +3,39 @@ requires = ["wheel", "setuptools>=45", "setuptools_scm[toml]>=6.0"]
 
 [tool.setuptools_scm]
 write_to = "src/iqrm/_version.py"
+
+[project]
+authors = [
+  {name = "Vincent Morello", email = "vmorello@gmail.com"},
+]
+dynamic = ["version"]
+classifiers = [
+  "Operating System :: Unix",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Astronomy",
+]
+dependencies = [
+  "numpy",
+]
+description = "A minimal implementation of the IQRM interference flagging algorithm"
+license = "MIT"
+license-files = ["LICENSE"]
+name = "iqrm"
+readme = "README.md"
+requires-python = ">=3.8"
+
+[project.urls]
+Documentation = "https://github.com/vmorello/iqrm"
+Homepage = "https://github.com/vmorello/iqrm"
+Issues = "https://github.com/vmorello/iqrm/issues"
+Source = "https://github.com/vmorello/iqrm"
+
+[tool.setuptools]
+include-package-data = true
+packages = {find = {where = ["src"]}}
+zip-safe = false

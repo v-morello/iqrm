@@ -7,10 +7,15 @@ __pycache__
 .mypy_cache
 docs/_build
 .pytest_cache
-src/iqrm/_version.py
+_version.py
 
 *.o
 *.so
 *.egg
 *.py[cod]
 *.egg-info
+
+scratch/
+
+venv/
+.venv/
