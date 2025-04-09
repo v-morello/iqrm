@@ -27,12 +27,7 @@ cd iqrm
 make install
 ```
 
-This simply runs `pip install` in [editable mode](https://pip.pypa.io/en/latest/cli/pip_install/#editable-installs), which means you can freely edit the code. It also installs any required dependencies with pip that are not present already. You can check that it all works by running the test suite in a Python or IPython console:
-
-```python
->>> import iqrm
->>> iqrm.test()
-```
+This simply runs `pip install` in [editable mode](https://pip.pypa.io/en/latest/cli/pip_install/#editable-installs), which means you can freely edit the code. It also installs any required dependencies with pip that are not present already.
 
 ## Usage
 
