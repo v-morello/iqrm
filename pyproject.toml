@@ -29,6 +29,13 @@ name = "iqrm"
 readme = "README.md"
 requires-python = ">=3.8"
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=6.0",
+    "ruff>=0.14.0",
+]
+
 [project.urls]
 Documentation = "https://github.com/v-morello/iqrm"
 Homepage = "https://github.com/v-morello/iqrm"
@@ -39,3 +46,18 @@ Source = "https://github.com/v-morello/iqrm"
 include-package-data = true
 packages = {find = {where = ["src"]}}
 zip-safe = false
+
+[tool.pytest]
+addopts = ["-vv"]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["D", "E", "W", "F", "B", "I", "PL"]
+ignore = [
+    "D100", # Missing docstring in public module
+    "D104", # Missing docstring in public package
+    "D203",  # incorrect-blank-line-before-class
+    "D213",  # multi-line-summary-second-line
+]

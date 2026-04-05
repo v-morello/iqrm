@@ -1,6 +1,13 @@
 .DEFAULT_GOAL := help
 PKG = iqrm
-TESTS_DIR = ${PKG}/tests
+PKG_DIR = src/
+TESTS_DIR = tests/
+
+format: ## Format code using ruff
+	ruff check ${PKG_DIR} ${TESTS_DIR} --fix
+
+lint: ## Lint code using ruff
+	ruff check ${PKG_DIR} ${TESTS_DIR}
 
 dist: ## Build source distribution
 	python setup.py sdist
@@ -34,6 +41,6 @@ clean: ## Remove all python cache and build files
 	find . -type d -name "__pycache__" -delete
 
 tests: ## Run unit tests
-	pytest --cov=iqrm --verbose --cov-report term-missing tests
+	pytest --cov=${PKG_DIR} --verbose --cov-report term-missing ${TESTS_DIR}
 
 .PHONY: dist install uninstall help clean tests
