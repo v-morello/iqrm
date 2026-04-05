@@ -1,5 +1,10 @@
 [build-system]
-requires = ["wheel", "setuptools>=45", "setuptools_scm[toml]>=6.0"]
+requires = [
+  "wheel",
+  "setuptools>=45",
+  "setuptools_scm[toml]>=6.0",
+  "pybind11>=2.6",
+]
 
 [tool.setuptools_scm]
 write_to = "src/iqrm/_version.py"
