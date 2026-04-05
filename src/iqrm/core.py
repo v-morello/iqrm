@@ -98,7 +98,7 @@ def iqrm_mask(x, radius=5, threshold=3.0, ignorechans=None):
         i_indices = np.where(m)[0]
         j_indices = np.clip(i_indices - lag, 0, n - 1)
 
-        for i, j in zip(i_indices, j_indices):
+        for i, j in zip(i_indices, j_indices, strict=True):
             votes_cast[int(j)].add(int(i))
             votes_received[int(i)].add(int(j))
 
